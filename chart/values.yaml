@@ -1,0 +1,45 @@
+﻿global:
+  storageClassName: do-block-storage
+
+secret:
+  name: app-secret
+
+postgres:
+  replicaCount: 1
+  image:
+    repository: postgres
+    tag: "16-alpine"
+  service:
+    port: 5432
+  pvc:
+    size: 5Gi
+    accessMode: ReadWriteOnce
+  env:
+    dbName: postgres
+
+backend:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/thinu-teko/backend
+    tag: latest
+  service:
+    port: 8080
+  env:
+    datasourceUsername: postgres
+    ddlAuto: create
+    jwtIssuer: Spring
+    jwtExpirationMillis: "86400000"
+
+frontend:
+  replicaCount: 1
+  image:
+    repository: ghcr.io/thinu-teko/frontend
+    tag: latest
+  service:
+    port: 80
+    targetPort: 3000
+
+ingress:
+  className: nginx
+  host: ""
+  backendRewriteTarget: /users/$2

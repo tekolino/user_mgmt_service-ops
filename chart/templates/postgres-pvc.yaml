@@ -1,0 +1,13 @@
+﻿apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  labels:
+    {{- include "user-mgmt-service.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.postgres.pvc.accessMode }}
+  storageClassName: {{ .Values.global.storageClassName }}
+  resources:
+    requests:
+      storage: {{ .Values.postgres.pvc.size }}
