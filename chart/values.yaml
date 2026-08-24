@@ -31,7 +31,7 @@ backend:
     jwtExpirationMillis: "86400000"
 
 frontend:
-  replicaCount: 1
+  replicaCount: 2
   image:
     repository: ghcr.io/thinu-teko/frontend
     tag: latest
