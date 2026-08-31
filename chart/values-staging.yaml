@@ -6,3 +6,6 @@ frontend:
 
 postgres:
   replicaCount: 1
+
+ingress:
+  host: staging.local
