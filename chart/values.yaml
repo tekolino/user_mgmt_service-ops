@@ -1,86 +1,86 @@
 global:
   storageClassName: do-block-storage
- 
+
 secret:
   name: app-secret
- 
+
 postgres:
   replicaCount: 1
- 
+
   image:
     repository: postgres
     tag: "16-alpine"
- 
+
   service:
     port: 5432
- 
+
   pvc:
     size: 5Gi
     accessMode: ReadWriteOnce
- 
+
   env:
     dbName: postgres
- 
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      cpu: 500m
-      memory: 512Mi
- 
- 
-backend:
-  replicaCount: 1
- 
-  image:
-    repository: ghcr.io/thinu-teko/backend
-    tag: ccd3ea06ae950413a50390484bf267c1ece6c6f3
- 
-  service:
-    port: 8080
- 
-  env:
-    datasourceUsername: postgres
-    ddlAuto: create
-    jwtIssuer: Spring
-    jwtExpirationMillis: "86400000"
- 
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      cpu: 500m
-      memory: 512Mi
- 
-  hpa:
-    enabled: true
-    minReplicas: 1
-    maxReplicas: 2
-    targetCPUUtilizationPercentage: 70
- 
- 
-frontend:
-  replicaCount: 1
- 
-  image:
-    repository: ghcr.io/thinu-teko/frontend
-    tag: ccd3ea06ae950413a50390484bf267c1ece6c6f3
- 
-  service:
-    port: 80
-    targetPort: 3000
- 
+
   resources:
     requests:
       cpu: 50m
       memory: 128Mi
     limits:
+      cpu: 500m
+      memory: 512Mi
+
+
+backend:
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/thinu-teko/backend
+    tag: ccd3ea06ae950413a50390484bf267c1ece6c6f3
+
+  service:
+    port: 8080
+
+  env:
+    datasourceUsername: postgres
+    ddlAuto: create
+    jwtIssuer: Spring
+    jwtExpirationMillis: "86400000"
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 2
+    targetCPUUtilizationPercentage: 70
+
+
+frontend:
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/thinu-teko/frontend
+    tag: ccd3ea06ae950413a50390484bf267c1ece6c6f3
+
+  service:
+    port: 80
+    targetPort: 3000
+
+  resources:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    limits:
       cpu: 250m
       memory: 256Mi
- 
- 
+
+
 ingress:
   className: nginx
   host: ""
