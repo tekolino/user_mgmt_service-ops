@@ -1,7 +1,9 @@
 global:
   storageClassName: do-block-storage
+
 secret:
   name: app-secret
+
 postgres:
   replicaCount: 1
   image:
@@ -14,6 +16,14 @@ postgres:
     accessMode: ReadWriteOnce
   env:
     dbName: postgres
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
 backend:
   replicaCount: 1
   image:
@@ -26,6 +36,14 @@ backend:
     ddlAuto: create
     jwtIssuer: Spring
     jwtExpirationMillis: "86400000"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
 frontend:
   replicaCount: 1
   image:
@@ -34,6 +52,14 @@ frontend:
   service:
     port: 80
     targetPort: 3000
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+
 ingress:
   className: nginx
   host: ""
