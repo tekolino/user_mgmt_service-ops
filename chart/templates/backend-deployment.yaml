@@ -4,68 +4,88 @@ metadata:
   name: backend
   labels:
     {{- include "user-mgmt-service.labels" . | nindent 4 }}
-
 spec:
   replicas: {{ .Values.backend.replicaCount }}
-
+ 
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+ 
   selector:
     matchLabels:
       app: backend
-
+ 
   template:
     metadata:
       labels:
         app: backend
-
+ 
     spec:
       containers:
         - name: backend
-
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
-
+ 
           ports:
             - containerPort: {{ .Values.backend.service.port }}
-
+ 
           resources:
             {{- toYaml .Values.backend.resources | nindent 12 }}
-
+ 
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.backend.service.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+ 
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.backend.service.port }}
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+ 
           env:
             - name: SPRING_DATASOURCE_URL
               valueFrom:
                 configMapKeyRef:
                   name: app-config
                   key: SPRING_DATASOURCE_URL
-
+ 
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 configMapKeyRef:
                   name: app-config
                   key: SPRING_DATASOURCE_USERNAME
-
+ 
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               valueFrom:
                 configMapKeyRef:
                   name: app-config
                   key: SPRING_JPA_HIBERNATE_DDL_AUTO
-
+ 
             - name: JWT_ISSUER
               valueFrom:
                 configMapKeyRef:
                   name: app-config
                   key: JWT_ISSUER
-
+ 
             - name: JWT_EXPIRATION_MILLIS
               valueFrom:
                 configMapKeyRef:
                   name: app-config
                   key: JWT_EXPIRATION_MILLIS
-
+ 
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secret.name }}
                   key: SPRING_DATASOURCE_PASSWORD
-
+ 
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
