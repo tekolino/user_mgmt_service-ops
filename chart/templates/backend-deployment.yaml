@@ -1,39 +1,41 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
   labels:
     {{- include "user-mgmt-service.labels" . | nindent 4 }}
- 
+
 spec:
+  {{- if not .Values.backend.hpa.enabled }}
   replicas: {{ .Values.backend.replicaCount }}
- 
+  {{- end }}
+
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 0
       maxSurge: 1
- 
+
   selector:
     matchLabels:
       app: backend
- 
+
   template:
     metadata:
       labels:
         app: backend
- 
+
     spec:
       containers:
         - name: backend
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
- 
+
           ports:
             - containerPort: {{ .Values.backend.service.port }}
- 
+
           resources:
             {{- toYaml .Values.backend.resources | nindent 12 }}
- 
+
           # Gibt Spring Boot bis zu 3 Minuten Startzeit
           startupProbe:
             tcpSocket:
@@ -41,8 +43,8 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 3
             failureThreshold: 18
- 
-          # Pod erhält erst Traffic, wenn Port 8080 erreichbar ist
+
+          # Pod erhaelt erst Traffic, wenn Port 8080 erreichbar ist
           readinessProbe:
             tcpSocket:
               port: {{ .Values.backend.service.port }}
@@ -50,7 +52,7 @@ spec:
             timeoutSeconds: 3
             failureThreshold: 3
             successThreshold: 1
- 
+
           # Fehlerhafter Backend-Pod wird automatisch neu gestartet
           livenessProbe:
             tcpSocket:
@@ -58,44 +60,44 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 3
             failureThreshold: 3
- 
+
           env:
             - name: SPRING_DATASOURCE_URL
               valueFrom:
                 configMapKeyRef:
                   name: app-config
                   key: SPRING_DATASOURCE_URL
- 
+
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 configMapKeyRef:
                   name: app-config
                   key: SPRING_DATASOURCE_USERNAME
- 
+
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               valueFrom:
                 configMapKeyRef:
                   name: app-config
                   key: SPRING_JPA_HIBERNATE_DDL_AUTO
- 
+
             - name: JWT_ISSUER
               valueFrom:
                 configMapKeyRef:
                   name: app-config
                   key: JWT_ISSUER
- 
+
             - name: JWT_EXPIRATION_MILLIS
               valueFrom:
                 configMapKeyRef:
                   name: app-config
                   key: JWT_EXPIRATION_MILLIS
- 
+
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secret.name }}
                   key: SPRING_DATASOURCE_PASSWORD
- 
+
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
