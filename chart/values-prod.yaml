@@ -1,13 +1,11 @@
 backend:
-  replicaCount: 2
+  replicaCount: 1
 
 frontend:
-  replicaCount: 2
+  replicaCount: 1
 
 postgres:
   replicaCount: 1
 
 ingress:
-  className: nginx
-  host: production.user-mgmt.local
-  backendRewriteTarget: /users/$2
+  host: production.local
