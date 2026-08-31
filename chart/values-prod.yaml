@@ -1,0 +1,8 @@
+backend:
+  replicaCount: 2
+
+frontend:
+  replicaCount: 2
+
+postgres:
+  replicaCount: 1
