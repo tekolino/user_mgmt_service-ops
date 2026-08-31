@@ -1,9 +1,7 @@
-﻿global:
+global:
   storageClassName: do-block-storage
-
 secret:
   name: app-secret
-
 postgres:
   replicaCount: 1
   image:
@@ -16,12 +14,11 @@ postgres:
     accessMode: ReadWriteOnce
   env:
     dbName: postgres
-
 backend:
   replicaCount: 1
   image:
     repository: ghcr.io/thinu-teko/backend
-    tag: latest
+    tag: ccd3ea06ae950413a50390484bf267c1ece6c6f3
   service:
     port: 8080
   env:
@@ -29,16 +26,14 @@ backend:
     ddlAuto: create
     jwtIssuer: Spring
     jwtExpirationMillis: "86400000"
-
 frontend:
   replicaCount: 1
   image:
     repository: ghcr.io/thinu-teko/frontend
-    tag: latest
+    tag: ccd3ea06ae950413a50390484bf267c1ece6c6f3
   service:
     port: 80
     targetPort: 3000
-
 ingress:
   className: nginx
   host: ""
