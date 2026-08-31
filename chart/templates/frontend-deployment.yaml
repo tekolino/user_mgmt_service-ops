@@ -1,39 +1,43 @@
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
   labels:
     {{- include "user-mgmt-service.labels" . | nindent 4 }}
- 
+
 spec:
   replicas: {{ .Values.frontend.replicaCount }}
- 
+
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 0
       maxSurge: 1
- 
+
   selector:
     matchLabels:
       app: frontend
- 
+
   template:
     metadata:
       labels:
         app: frontend
- 
+
     spec:
       containers:
         - name: frontend
           image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
- 
+
           ports:
             - containerPort: {{ .Values.frontend.service.targetPort }}
- 
+
+          env:
+            - name: INTERNAL_API_URL
+              value: "http://backend-service:{{ .Values.backend.service.port }}"
+
           resources:
             {{- toYaml .Values.frontend.resources | nindent 12 }}
- 
+
           readinessProbe:
             httpGet:
               path: /
@@ -42,7 +46,7 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 3
             failureThreshold: 3
- 
+
           livenessProbe:
             httpGet:
               path: /
