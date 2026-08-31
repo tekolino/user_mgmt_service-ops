@@ -8,4 +8,6 @@ postgres:
   replicaCount: 1
 
 ingress:
-  host: production.local
+  className: nginx
+  host: production.user-mgmt.local
+  backendRewriteTarget: /users/$2
