@@ -25,7 +25,7 @@ backend:
   replicaCount: 1
   image:
     repository: ghcr.io/thinu-teko/backend
-    tag: 48f0e1b954f969272fa89156c731affdc8fa79dd
+    tag: 291f542b48e0b3bafb55f118a5b1c01b1b949fe4
   service:
     port: 8080
   env:
@@ -52,7 +52,7 @@ frontend:
   replicaCount: 1
   image:
     repository: ghcr.io/thinu-teko/frontend
-    tag: 48f0e1b954f969272fa89156c731affdc8fa79dd
+    tag: 291f542b48e0b3bafb55f118a5b1c01b1b949fe4
   service:
     port: 80
     targetPort: 3000
