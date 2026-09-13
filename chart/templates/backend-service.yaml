@@ -10,6 +10,6 @@ spec:
   ports:
     - name: http
     port: {{ .Values.backend.service.port }}
-      targetPort: {{ .Values.backend.service.port }}
-      protocol: TCP
+    targetPort: {{ .Values.backend.service.port }}
+    protocol: TCP
   type: ClusterIP
