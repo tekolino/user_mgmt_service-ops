@@ -24,7 +24,7 @@ postgres:
 backend:
   replicaCount: 1
   monitoring:
-  enabled: true
+    enabled: true
   image:
     repository: ghcr.io/thinu-teko/backend
     tag: 08366778dec53c79cc99fbc32fcd8c67d8908d5a
