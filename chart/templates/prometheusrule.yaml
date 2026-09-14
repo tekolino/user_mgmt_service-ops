@@ -1,0 +1,39 @@
+{{- if .Values.backend.monitoring.enabled }}
+
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ .Release.Name }}-backend-alerts
+  labels:
+    {{- include "user-mgmt-service.labels" . | nindent 4 }}
+spec:
+  groups:
+    - name: user-mgmt-service.rules
+      rules:
+        - alert: UserMgmtServiceHigh5xxErrorRate
+          expr: |
+            (
+              sum(
+                rate(http_server_requests_seconds_count{
+                  namespace="{{ .Release.Namespace }}",
+                  uri!="/actuator/prometheus",
+                  status=~"5.."
+                }[5m])
+              )
+              /
+              sum(
+                rate(http_server_requests_seconds_count{
+                  namespace="{{ .Release.Namespace }}",
+                  uri!="/actuator/prometheus"
+                }[5m])
+              )
+            ) > 0.10
+          for: 5m
+          labels:
+            severity: warning
+            service: user-mgmt-service
+          annotations:
+            summary: "High 5xx error rate in user_mgmt_service"
+            description: "More than 10% of requests in {{ .Release.Namespace }} return HTTP 5xx for at least 5 minutes."
+
+{{- end }}
