@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: k6-load-test
+  namespace: staging
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: k6-load-test
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: k6
+          image: grafana/k6:latest
+          args:
+            - run
+            - /scripts/load-test.js
+          volumeMounts:
+            - name: script
+              mountPath: /scripts
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+      volumes:
+        - name: script
+          configMap:
+            name: k6-load-test
