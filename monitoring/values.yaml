@@ -23,7 +23,7 @@ alertmanager:
         - alertname
       group_wait: 10s
       group_interval: 1m
-      repeat_interval: 1h
+      repeat_interval: 1m
       receiver: webhook
 
       routes:
