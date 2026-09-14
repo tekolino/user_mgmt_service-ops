@@ -10,3 +10,4 @@ data:
   SPRING_JPA_HIBERNATE_DDL_AUTO: {{ .Values.backend.env.ddlAuto | quote }}
   JWT_ISSUER: {{ .Values.backend.env.jwtIssuer | quote }}
   JWT_EXPIRATION_MILLIS: {{ .Values.backend.env.jwtExpirationMillis | quote }}
+  SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: {{ .Values.postgres.managed.maxPoolSize | quote }}
