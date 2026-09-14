@@ -11,3 +11,4 @@ data:
   JWT_ISSUER: {{ .Values.backend.env.jwtIssuer | quote }}
   JWT_EXPIRATION_MILLIS: {{ .Values.backend.env.jwtExpirationMillis | quote }}
   SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: {{ .Values.postgres.managed.maxPoolSize | quote }}
+  LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: "DEBUG"
