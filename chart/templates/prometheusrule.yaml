@@ -10,14 +10,14 @@ spec:
   groups:
     - name: user-mgmt-service.rules
       rules:
-        - alert: UserMgmtServiceHigh5xxErrorRate
+        - alert: UserMgmtServiceHighErrorRate
           expr: |
             (
               sum(
                 rate(http_server_requests_seconds_count{
                   namespace="{{ .Release.Namespace }}",
                   uri!="/actuator/prometheus",
-                  status=~"5.."
+                  status=~"4..|5.."
                 }[5m])
               )
               /
@@ -33,7 +33,7 @@ spec:
             severity: warning
             service: user-mgmt-service
           annotations:
-            summary: "High 5xx error rate in user_mgmt_service"
-            description: "More than 10% of requests in {{ .Release.Namespace }} return HTTP 5xx for at least 5 minutes."
+            summary: "High error rate in user_mgmt_service"
+            description: "More than 10% of requests in {{ .Release.Namespace }} return HTTP 4xx or 5xx for at least 5 minutes."
 
 {{- end }}
