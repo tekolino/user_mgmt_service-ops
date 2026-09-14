@@ -38,13 +38,13 @@ spec:
           resources:
             {{- toYaml .Values.backend.resources | nindent 12 }}
 
-          # Gibt Spring Boot bis zu 3 Minuten Startzeit
+          # Gibt Spring Boot bis zu 6 Minuten Startzeit (grosszuegiger wegen moeglicher DB-Lock-Wartezeit bei gleichzeitigem Start mehrerer Pods gegen die Managed Database)
           startupProbe:
             tcpSocket:
               port: {{ .Values.backend.service.port }}
             periodSeconds: 10
             timeoutSeconds: 3
-            failureThreshold: 18
+            failureThreshold: 36
 
           # Pod erhaelt erst Traffic, wenn Port 8080 erreichbar ist
           readinessProbe:
