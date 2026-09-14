@@ -32,7 +32,7 @@ backend:
     port: 8080
   env:
     datasourceUsername: postgres
-    ddlAuto: create
+    ddlAuto: update
     jwtIssuer: Spring
     jwtExpirationMillis: "86400000"
   resources:
