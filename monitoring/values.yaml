@@ -26,7 +26,14 @@ alertmanager:
       repeat_interval: 1h
       receiver: webhook
 
+      routes:
+        - matchers:
+            - alertname = "Watchdog"
+          receiver: "null"
+
     receivers:
+      - name: "null"
+
       - name: webhook
         webhook_configs:
           - url: "https://webhook.site/dca8f6a0-b424-45cf-bdc1-6a961c6b9af6"
