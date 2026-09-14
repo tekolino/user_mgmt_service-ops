@@ -1,11 +1,14 @@
-backend:
+﻿backend:
   replicaCount: 1
+  env:
+    datasourceUsername: production_user
 
 frontend:
   replicaCount: 1
 
 postgres:
-  replicaCount: 1
+  managed:
+    dbName: production
 
 ingress:
   host: production.local

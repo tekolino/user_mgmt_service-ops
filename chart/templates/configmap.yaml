@@ -5,9 +5,8 @@ metadata:
   labels:
     {{- include "user-mgmt-service.labels" . | nindent 4 }}
 data:
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-service:{{ .Values.postgres.service.port }}/{{ .Values.postgres.env.dbName }}"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://{{ .Values.postgres.managed.host }}:{{ .Values.postgres.managed.port }}/{{ .Values.postgres.managed.dbName }}?sslmode=require"
   SPRING_DATASOURCE_USERNAME: {{ .Values.backend.env.datasourceUsername | quote }}
   SPRING_JPA_HIBERNATE_DDL_AUTO: {{ .Values.backend.env.ddlAuto | quote }}
   JWT_ISSUER: {{ .Values.backend.env.jwtIssuer | quote }}
   JWT_EXPIRATION_MILLIS: {{ .Values.backend.env.jwtExpirationMillis | quote }}
-  POSTGRES_DB: {{ .Values.postgres.env.dbName | quote }}

@@ -1,26 +1,11 @@
-global:
+﻿global:
   storageClassName: do-block-storage
 secret:
   name: app-secret
 postgres:
-  replicaCount: 1
-  image:
-    repository: postgres
-    tag: "16-alpine"
-  service:
-    port: 5432
-  pvc:
-    size: 5Gi
-    accessMode: ReadWriteOnce
-  env:
-    dbName: postgres
-  resources:
-    requests:
-      cpu: 50m
-      memory: 128Mi
-    limits:
-      cpu: 500m
-      memory: 1Gi
+  managed:
+    host: "user-mgmt-postgres-do-user-39968299-0.a.db.ondigitalocean.com"
+    port: 25060
 backend:
   replicaCount: 1
   monitoring:
@@ -31,7 +16,6 @@ backend:
   service:
     port: 8080
   env:
-    datasourceUsername: postgres
     ddlAuto: update
     jwtIssuer: Spring
     jwtExpirationMillis: "86400000"

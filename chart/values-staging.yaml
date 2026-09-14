@@ -1,11 +1,14 @@
-backend:
+﻿backend:
   replicaCount: 1
+  env:
+    datasourceUsername: staging_user
 
 frontend:
   replicaCount: 1
 
 postgres:
-  replicaCount: 1
+  managed:
+    dbName: staging
 
 ingress:
   className: nginx
