@@ -4,7 +4,7 @@ secret:
   name: app-secret
 postgres:
   managed:
-    host: "user-mgmt-postgres-do-user-39968299-0.a.db.ondigitalocean.com"
+    host: "user-mgmt-postgres-do-user-39968299-0.l.db.ondigitalocean.com"
     port: 25060
     maxPoolSize: 3
 backend:
