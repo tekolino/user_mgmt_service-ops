@@ -11,4 +11,4 @@ postgres:
     dbName: production
 
 ingress:
-  host: production.209.38.188.174.sslip.io
+  host: production.139.59.204.235.sslip.io
