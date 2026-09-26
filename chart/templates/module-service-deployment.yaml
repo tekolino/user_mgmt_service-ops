@@ -15,10 +15,14 @@ spec:
       labels:
         app: module-service
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+
       containers:
         - name: module-service
           image: "{{ .Values.moduleService.image.repository }}:{{ .Values.moduleService.image.tag }}"
           imagePullPolicy: Always
+
           ports:
             - name: http
               containerPort: {{ .Values.moduleService.service.port }}
@@ -58,4 +62,4 @@ spec:
               memory: {{ .Values.moduleService.resources.requests.memory }}
             limits:
               cpu: {{ .Values.moduleService.resources.limits.cpu }}
-              memory: {{ .Values.moduleService.resources.limits.memory }}
+              memory: {{ .Values.moduleService.resources.limits.memory }}$
