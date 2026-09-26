@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: module-service
+  labels:
+    app: module-service
+    {{- include "user-mgmt-service.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.moduleService.replicaCount }}
+  selector:
+    matchLabels:
+      app: module-service
+  template:
+    metadata:
+      labels:
+        app: module-service
+    spec:
+      containers:
+        - name: module-service
+          image: "{{ .Values.moduleService.image.repository }}:{{ .Values.moduleService.image.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: {{ .Values.moduleService.service.port }}
+              protocol: TCP
+
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.moduleService.service.port }}
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+            successThreshold: 1
+
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.moduleService.service.port }}
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.moduleService.secret.name }}
+                  key: DATABASE_URL
+
+            - name: MYSQL_SSL_DISABLED
+              value: "false"
+
+            - name: LOG_LEVEL
+              value: "INFO"
+
+          resources:
+            requests:
+              cpu: {{ .Values.moduleService.resources.requests.cpu }}
+              memory: {{ .Values.moduleService.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.moduleService.resources.limits.cpu }}
+              memory: {{ .Values.moduleService.resources.limits.memory }}

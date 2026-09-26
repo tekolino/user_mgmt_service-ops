@@ -54,3 +54,27 @@ ingress:
   className: nginx
   host: ""
   backendRewriteTarget: /users/$2
+moduleService:
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/thinu-teko/module-service
+    tag: "0.1.0"
+
+  service:
+    port: 8080
+
+  mysql:
+    host: "module-service-mysql-do-user-39968299-0.k.db.ondigitalocean.com"
+    port: 25060
+
+  secret:
+    name: module-mysql-secret
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi

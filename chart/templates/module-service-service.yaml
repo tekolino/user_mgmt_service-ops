@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: module-service
+  labels:
+    app: module-service
+    {{- include "user-mgmt-service.labels" . | nindent 4 }}
+spec:
+  selector:
+    app: module-service
+  ports:
+    - name: http
+      port: {{ .Values.moduleService.service.port }}
+      targetPort: {{ .Values.moduleService.service.port }}
+      protocol: TCP
+  type: ClusterIP
