@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kyverno-invalid-test
+  namespace: staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kyverno-invalid-test
+  template:
+    metadata:
+      labels:
+        app: kyverno-invalid-test
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "32Mi"
+            limits:
+              cpu: "100m"
+              memory: "64Mi"
