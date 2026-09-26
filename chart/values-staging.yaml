@@ -12,5 +12,5 @@ postgres:
 
 ingress:
   className: nginx
-  host: staging.139.59.204.235.sslip.io
+  host: staging.209.38.113.33.sslip.io
   backendRewriteTarget: /users/$2
