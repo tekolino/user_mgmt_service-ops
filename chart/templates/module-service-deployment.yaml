@@ -62,4 +62,4 @@ spec:
               memory: {{ .Values.moduleService.resources.requests.memory }}
             limits:
               cpu: {{ .Values.moduleService.resources.limits.cpu }}
-              memory: {{ .Values.moduleService.resources.limits.memory }}$
+              memory: {{ .Values.moduleService.resources.limits.memory }}
