@@ -13,7 +13,7 @@ backend:
     enabled: true
   image:
     repository: ghcr.io/thinu-teko/backend
-    tag: 9df768ccb1ec04325bc95200417a10c9d2e92a32
+    tag: 670b32e8079624721e64b8fa71ea626c9fd5965c
   service:
     port: 8080
   env:
@@ -39,7 +39,7 @@ frontend:
   replicaCount: 1
   image:
     repository: ghcr.io/thinu-teko/frontend
-    tag: 9df768ccb1ec04325bc95200417a10c9d2e92a32
+    tag: 670b32e8079624721e64b8fa71ea626c9fd5965c
   service:
     port: 80
     targetPort: 3000
