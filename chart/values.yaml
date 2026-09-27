@@ -58,7 +58,7 @@ moduleService:
   replicaCount: 1
   image:
     repository: ghcr.io/thinu-teko/module-service
-    tag: "0.1.2"
+    tag: "891d507ca85733bdc917a3a652ff4b8ddbb08ba3"
   service:
     port: 8080
   mysql:
