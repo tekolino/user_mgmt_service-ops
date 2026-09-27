@@ -1,33 +1,25 @@
 global:
   storageClassName: do-block-storage
-
 secret:
   name: app-secret
-
 postgres:
   managed:
     host: "user-mgmt-postgres-do-user-39968299-0.d.db.ondigitalocean.com"
     port: 25060
     maxPoolSize: 3
-
 backend:
   replicaCount: 1
-
   monitoring:
     enabled: true
-
   image:
     repository: ghcr.io/thinu-teko/backend
-    tag: 4027b26e7215629d4009becd481837a7b465df02
-
+    tag: 11570204db9f5e2050ed5040ebae6fdb664bcd2d
   service:
     port: 8080
-
   env:
     ddlAuto: update
     jwtIssuer: Spring
     jwtExpirationMillis: "86400000"
-
   resources:
     requests:
       cpu: 50m
@@ -35,28 +27,22 @@ backend:
     limits:
       cpu: 500m
       memory: 512Mi
-
   hpa:
     enabled: true
     minReplicas: 1
     maxReplicas: 2
     targetCPUUtilizationPercentage: 70
-
   pdb:
     enabled: true
     minAvailable: 1
-
 frontend:
   replicaCount: 1
-
   image:
     repository: ghcr.io/thinu-teko/frontend
-    tag: 4027b26e7215629d4009becd481837a7b465df02
-
+    tag: 11570204db9f5e2050ed5040ebae6fdb664bcd2d
   service:
     port: 80
     targetPort: 3000
-
   resources:
     requests:
       cpu: 25m
@@ -64,29 +50,22 @@ frontend:
     limits:
       cpu: 250m
       memory: 256Mi
-
 ingress:
   className: nginx
   host: ""
   backendRewriteTarget: /users/$2
-
 moduleService:
   replicaCount: 1
-
   image:
     repository: ghcr.io/thinu-teko/module-service
     tag: "0.1.1"
-
   service:
     port: 8080
-
   mysql:
     host: "module-service-mysql-do-user-39968299-0.k.db.ondigitalocean.com"
     port: 25060
-
   secret:
     name: module-mysql-secret
-
   resources:
     requests:
       cpu: 50m
